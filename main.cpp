@@ -84,6 +84,29 @@ public:
 		root->clearEventTimes();
 	}
 
+	void createManualObject()
+	{
+		String mOName = "Cube";
+
+		pMObj = pSM->createManualObject(mOName);
+		pMObj->setDynamic(false);
+
+		createMesh(pMObj);
+
+		int numEntities = 5;
+
+		for (int iter = 0; iter < numEntities; ++iter)
+		{
+			Entity *entity = pSM->createEntity(meshName);
+			SceneNode *node = pMainNode->createChildSceneNode();
+			node->attachObject(entity);
+			float offset = float(1+ iter * 2) - (float(numEntities));
+			node->translate(offset, offset, -30.0f);
+		}
+
+		root->clearEventTimes();
+	}
+
 	void run( void )
 	{
 		window->update(false);

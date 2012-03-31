@@ -19,7 +19,7 @@ void OgreFramework::createWindow(OgreInitiator *initiator)
 			initiator->fullscreen,
 			&initiator->windowParams);
 
-		LogManager::getSingleton().logMessage("Window " + initiator->windowName + " created!")
+		LogManager::getSingleton().logMessage("Window " + initiator->windowName + " created!");
 	}
 	else
 	{
