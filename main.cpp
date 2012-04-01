@@ -8,6 +8,8 @@
 */
 
 #include "OgreFramework.h"
+#include "BasicViewportAction.h"
+#include "MeshLoader.h"
 #include "Ogre.h"
 
 using namespace Ogre;
@@ -117,6 +119,10 @@ public:
 
 int main (int argv, char **argc)
 {
+	float width = 0.88f, height = 0.88f;
+	float left = (1.0f - width) * 0.5f;
+	float top = (1.0f - height) * 0.5f;
+
 	OgreInitiator oi;
 	oi.autoWindow = false;
 	oi.configFilename = "";
@@ -134,12 +140,51 @@ int main (int argv, char **argc)
 	OgreFramework ogre(&oi);
 	ogre.createWindow(&oi);
 
-	TestAction ta(&ogre);
+	BasicViewportAction bva(&ogre);
+	bva.setActionNames("Basic Scene Manager", "Wood Block Scene", "Wood Block Camera");
+	bva.setClippingPlaneDimensions(1.5f, 3000.0f);
+	bva.setViewportDimensions(height, width, top, left, 100);
+	bva.sceneSetup();
 
-	ogre.runWindow(&ta);
+	MeshLoader ml("WoodBlockResources", "/home/master/Programming/ogre/OgreFramework/meshes", false);
+	ml.loadResourceDirectory();
+
+	//add meshes to scene
+	Entity *entity = bva.sceneManager->createEntity("Cube.mesh");
+	SceneNode *node = bva.rootSceneNode->createChildSceneNode();
+	node->attachObject(entity);
+	node->translate(0, 0, -10.0f);
+
+	ogre.runWindow(&bva);
 
 	return 0;
 }
+
+//int main (int argv, char **argc)
+//{
+//	OgreInitiator oi;
+//	oi.autoWindow = false;
+//	oi.configFilename = "";
+//	oi.customCapacities = "";
+//	oi.fullscreen = false;
+//	oi.logFilename = "Ogre_Framework.log";
+//	oi.pluginsFilename = "";
+//	oi.sizeX = 800;
+//	oi.sizeY = 600;
+//	oi.windowName = "Framework Window";
+//
+//	oi.windowParams["FSAA"] = "0";
+//	oi.windowParams["vsync"] = "true";
+//
+//	OgreFramework ogre(&oi);
+//	ogre.createWindow(&oi);
+//
+//	TestAction ta(&ogre);
+//
+//	ogre.runWindow(&ta);
+//
+//	return 0;
+//}
 
 void TestAction::createMesh(ManualObject *manualObject)
 {

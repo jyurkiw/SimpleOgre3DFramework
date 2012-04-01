@@ -1,0 +1,32 @@
+
+// blender material: WoodGrain
+material WoodGrain 
+{
+    receive_shadows on
+    technique b2ogre_1333236244.794498
+    {
+        pass b2ogre_1333236244.794527
+        {
+            ambient 0.7304608821868896 0.479320228099823 0.24228113889694214 1.0
+            diffuse 0.5900312046161815 0.38717185064851023 0.19570306326488307 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}

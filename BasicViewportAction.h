@@ -8,8 +8,8 @@
 #ifndef BASICVIEWPORTACTION_H_
 #define BASICVIEWPORTACTION_H_
 
-#import "OgreFramework.h"
-#import "Ogre.h"
+#include "OgreFramework.h"
+#include "Ogre.h"
 
 using namespace Ogre;
 
@@ -132,7 +132,7 @@ public:
 			cameraNode->attachObject(mainCamera);
 
 			//create the viewport
-			viewport = window->addViewport(mainCamera, viewportLeftOffset, viewportTopOffset, viewportWidth, viewportHeight);
+			viewport = window->addViewport(mainCamera, mainViewportZOrder, viewportLeftOffset, viewportTopOffset, viewportWidth, viewportHeight);
 			viewport->setAutoUpdated(autoupdate);
 			viewport->setBackgroundColour(viewportBackgroundColor);
 
