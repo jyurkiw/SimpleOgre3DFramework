@@ -22,14 +22,20 @@ public:
 	SceneManager *sceneManager;		///< The primary scene manager (auto-generated).
 	SceneNode *rootSceneNode;		///< The root scene node (auto-generated).
 	SceneNode *cameraNode;			///< The camera node descended from the root scene node (auto-generated).
+	SceneNode *lightNode;			///< The light node descended from the root scene node.
 
 	Camera *mainCamera;				///< The main camera object (auto-generated).
+
+	Light *mainLight;				///< The main light for the scene.
+	ColourValue diffuse;			///< The light's diffuse color.
+	ColourValue specular;			///< The light's specular color.
 
 	Viewport *viewport;				///< The main viewport (auto-generated).
 
 	String sceneManagerName;		///< The name of the scene manager (set).
 	String sceneName;				///< The name of the scene (set).
 	String cameraName;				///< The name of the camera (set).
+	String lightName;
 
 	float viewportWidth;			///< The width of the viewport window.
 	float viewportHeight;			///< The height of the viewport window.
@@ -49,7 +55,9 @@ public:
 	 * @param pRootFrame An OgreFramework object.
 	 */
 	BasicViewportAction(OgreFramework *pRootFrame) :
-		root(pRootFrame->pRoot), window(pRootFrame->pWindow), sceneManagerName(""), sceneName(""), cameraName(""),
+		root(pRootFrame->pRoot), window(pRootFrame->pWindow), diffuse(ColourValue(1.0f, 1.0f, 1.0f)),
+		specular(ColourValue(1.0f, 1.0f, 1.0f)),
+		sceneManagerName(""), sceneName(""), cameraName(""),
 		viewportWidth(0), viewportHeight(0), viewportLeftOffset(0), viewportTopOffset(0),mainViewportZOrder(0),
 		autoupdate(true), viewportBackgroundColor(1,0,1), nearClipDistance(0), farClipDistance(0),
 		namesAreSet(false), viewportDimensionsAreSet(false)
@@ -115,6 +123,14 @@ public:
 		farClipDistance = far;
 	}
 
+	void setDirectionalLightAttributes()
+	{
+		mainLight = sceneManager->createLight();
+		mainLight->setType(Light::LT_DIRECTIONAL);
+		mainLight->setDiffuseColour(diffuse);
+		mainLight->setSpecularColour(specular);
+	}
+
 	///Set up a basic, empty scene with a camera.
 	void sceneSetup()
 	{
@@ -143,6 +159,11 @@ public:
 			//set clipping plane
 			mainCamera->setNearClipDistance(nearClipDistance);
 			mainCamera->setFarClipDistance(farClipDistance);
+
+			//set a basic light
+			lightNode = rootSceneNode->createChildSceneNode(lightName + "Node");
+			setDirectionalLightAttributes();
+			lightNode->attachObject(mainLight);
 
 			//activate the window
 			window->setActive(true);
